@@ -1,0 +1,39 @@
+{
+  "name": "react-hooks-webpack",
+  "version": "0.0.1",
+  "description": "A simple project to start with ReactJS and Webpack.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --config ./webpack.config.dev.js",
+    "prod": "webpack --config ./webpack.config.prod.js",
+    "deploy": "node gh-pages.js"
+  },
+  "keywords": [
+    "react",
+    "webpack",
+    "hooks"
+  ],
+  "author": "Alexander Belov",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "file-loader": "^6.0.0",
+    "gh-pages": "^2.2.0",
+    "less": "^3.11.1",
+    "less-loader": "^6.1.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
