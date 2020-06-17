@@ -1,0 +1,479 @@
+/***
+
+This is CSS Global variables. 
+You can use it anywhere, just import this styles to index.js 
+*/
+
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+    --common-blue: rgb(52, 120, 247);
+    --translucent-blue: rgba(14, 14, 64, 0.1);
+    --text: 'Roboto', sans-serif;
+}
+
+html, body {
+    background-color: #ECEFF4;
+}
+/***
+
+Base less script, to dive into this project.
+*/
+.app {
+  max-width: 440px;
+  margin: 0 auto;
+}
+.header {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 8px 0;
+  background: #ECEFF4;
+  z-index: 9999;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
+  .header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    padding: 8px 12px;
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(236, 239, 244, 0.9);
+  }
+}
+.header .logo {
+  width: 201px;
+  height: 44px;
+  background-image: url(assets/images/mindologo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.header .questions-count {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #687589;
+  font-weight: normal;
+}
+.header .questions-error {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #FF4000;
+  font-weight: normal;
+}
+.container {
+  margin-top: 28px;
+}
+
+.question {
+  background: #FFFFFF;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08), 0 0 2px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
+  .question {
+    padding: 12px;
+    margin: 0 12px;
+    margin-bottom: 10px;
+  }
+}
+.question .error {
+  font-size: 13px;
+  text-align: center;
+  color: #333333;
+  font-family: 'Roboto', sans-serif;
+}
+.question--processing {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.question--processing p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  color: #5E6A7E;
+}
+.question--processing .retryProcess {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  background: #6D7885;
+  border-radius: 10px;
+  padding: 6px 10px;
+  margin-left: 16px;
+}
+.question--processing .retryProcess:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+.question .userinfo {
+  display: flex;
+  align-items: center;
+  padding: 5px 0 10px 0;
+}
+.question .userinfo .userpic {
+  width: 21px;
+  height: 21px;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+}
+.question .userinfo .username {
+  margin-left: 8px;
+}
+.question .userinfo .username h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #22252B;
+  letter-spacing: -0.28px;
+  text-align: center;
+}
+.question .userinfo .username h2.preview {
+  background: #ECEFF4;
+  padding: 3px;
+  border-radius: 3px;
+  min-width: 120px;
+  min-height: 12px;
+}
+.question-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.question-header--actions {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
+  .question-header--actions {
+    display: none;
+  }
+}
+.question-header--actions .action {
+  background: #EBF2FA;
+  border-radius: 4px;
+  padding: 4px 5px;
+  margin-right: 6px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.question-header--actions .action:last-child {
+  margin-right: 0;
+}
+.question-header--actions .action:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+.question-header--actions .action.decline {
+  background: #FAEBEB;
+}
+.question-header--actions .action .icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.question-text {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+.question-text textarea {
+  font-family: 'Roboto', sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: #333;
+  letter-spacing: -0.32px;
+  line-height: 1.3em;
+  padding: 8px 0;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  height: auto;
+  overflow: hidden;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
+  .question-text textarea {
+    font-size: 24px;
+  }
+}
+.question-text .preview-text {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.question-text .preview-text--block {
+  margin-bottom: 10px;
+  width: 130px;
+  height: 19px;
+  background: #5E6A7E;
+  opacity: 0.2;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+.question-text .preview-text--block:nth-child(even) {
+  width: 80px;
+}
+.question-text .preview-text--block:nth-child(3n+1) {
+  width: 40px;
+}
+.question-explanation textarea {
+  font-size: 12px;
+  padding: 4px 0;
+  color: #999999;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+  height: auto;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
+  .question-explanation textarea {
+    font-size: 16px;
+  }
+}
+.question-answers {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  touch-action: manipulation;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
+  .question-answers {
+    flex-direction: column;
+  }
+}
+.question-answers .answer {
+  background: #F5F8FC;
+  border-radius: 4px;
+  padding: 6px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #5E6A7E;
+  margin-bottom: 6px;
+  touch-action: manipulation;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
+  .question-answers .answer {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+}
+.question-answers .answer:first-child {
+  background: #E2F7DE;
+  color: #5E7E63;
+}
+.question-answers .answer.preview {
+  min-height: 14px;
+  min-width: 60px;
+}
+.question-category {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  font-size: 9px;
+  text-transform: uppercase;
+  background: #ffffff;
+  display: inline-block;
+  padding: 4px;
+  border-radius: 3px;
+  color: #ffffff;
+}
+.question-category:hover {
+  cursor: pointer;
+}
+.question-category.Literature {
+  background: #FFA000;
+}
+.question-category.Math {
+  background: #E64646;
+}
+.question-category.Russian {
+  background: #857250;
+}
+.question-category.Physics {
+  background: #3F8AE0;
+}
+.question-category.Chemistry {
+  background: #792EC0;
+}
+.question-category.Astronomy {
+  background: #6D7885;
+}
+.question-category.Geography {
+  background: #4CD964;
+}
+.question-category.Biology {
+  background: #4BB34B;
+}
+.question-category.History {
+  background: #63B9BA;
+}
+.question-category.Art {
+  background: #E5188F;
+}
+.question-category.Sport {
+  background: #28436E;
+}
+.question-category.Other {
+  background: #909499;
+}
+.question .mobile-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: center;
+  touch-action: manipulation;
+}
+.question .mobile-actions .action {
+  background: #EBF2FA;
+  border-radius: 4px;
+  padding: 4px 4px;
+  min-width: 80px;
+  margin-right: 10px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
+  .question .mobile-actions .action {
+    flex-shrink: 0;
+    flex-grow: 1;
+    padding: 6px 10px;
+  }
+}
+.question .mobile-actions .action:last-child {
+  margin-right: 0;
+}
+.question .mobile-actions .action:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
+  .question .mobile-actions .action:hover {
+    opacity: 0.4;
+  }
+}
+.question .mobile-actions .action.decline {
+  background: #FAEBEB;
+}
+.question .mobile-actions .action .icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
+  .question .mobile-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: center;
+  }
+}
+
+div.spinner {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  padding: 10px;
+  border-radius: 5px;
+}
+div.spinner div {
+  width: 6%;
+  height: 16%;
+  background: rgba(82, 122, 185, 0.5);
+  position: absolute;
+  left: 45%;
+  top: 40%;
+  opacity: 0;
+  border-radius: 50px;
+  animation: fade 1s linear infinite;
+}
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.25;
+  }
+}
+div.spinner div.bar1 {
+  transform: rotate(0deg) translate(0, -130%);
+  animation-delay: 0s;
+}
+div.spinner div.bar2 {
+  transform: rotate(30deg) translate(0, -130%);
+  animation-delay: -0.9167s;
+}
+div.spinner div.bar3 {
+  transform: rotate(60deg) translate(0, -130%);
+  animation-delay: -0.833s;
+}
+div.spinner div.bar4 {
+  transform: rotate(90deg) translate(0, -130%);
+  animation-delay: -0.7497s;
+}
+div.spinner div.bar5 {
+  transform: rotate(120deg) translate(0, -130%);
+  animation-delay: -0.667s;
+}
+div.spinner div.bar6 {
+  transform: rotate(150deg) translate(0, -130%);
+  animation-delay: -0.5837s;
+}
+div.spinner div.bar7 {
+  transform: rotate(180deg) translate(0, -130%);
+  animation-delay: -0.5s;
+}
+div.spinner div.bar8 {
+  transform: rotate(210deg) translate(0, -130%);
+  animation-delay: -0.4167s;
+}
+div.spinner div.bar9 {
+  transform: rotate(240deg) translate(0, -130%);
+  animation-delay: -0.333s;
+}
+div.spinner div.bar10 {
+  transform: rotate(270deg) translate(0, -130%);
+  animation-delay: -0.2497s;
+}
+div.spinner div.bar11 {
+  transform: rotate(300deg) translate(0, -130%);
+  animation-delay: -0.167s;
+}
+div.spinner div.bar12 {
+  transform: rotate(330deg) translate(0, -130%);
+  animation-delay: -0.0833s;
+}
+
