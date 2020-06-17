@@ -3,16 +3,49 @@
 Base less script, to dive into this project.
 */
 
-@picture-size: 196px;
-
 .app {
-    p {
-        font-family: var(--text);
-        font-size: 14px;
-        color: #252525;
-        padding: 8px 12px;
-        background-color: var(--translucent-blue);
-        border-radius: 10px;
-        margin: 10px;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.header {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 8px 0;
+    background: #ECEFF4;
+    z-index: 9999;
+
+    @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 812px) {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        padding: 8px 12px; 
+        -webkit-backdrop-filter: blur(10px);
+        background: rgba(236, 239, 244, 0.9);
     }
+
+    .logo {
+        width: 201px;
+        height: 44px;
+        background-image: url(./assets/images/mindologo.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+
+    .questions-count {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        color: #687589;
+        font-weight: normal;
+    }
+}
+
+.container {
+    margin-top: 28px;
 }

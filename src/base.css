@@ -19,3 +19,7 @@ You can use it anywhere, just import this styles to index.js
     --translucent-blue: rgba(14, 14, 64, 0.1);
     --text: 'Roboto', sans-serif;
 }
+
+html, body {
+    background-color: #ECEFF4;
+}
