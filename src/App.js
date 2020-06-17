@@ -10,6 +10,7 @@ function App() {
 
     const [questions, setQuestions] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingError, setIsLoadingError] = useState(false);
     const [categoryFilter, setCategoryFilter] = useState(false);
 
     useEffect(() => {
@@ -23,10 +24,12 @@ function App() {
                 setQuestions(response.data.attachment)
             } else {
                 setQuestions(null);
+                setIsLoadingError(true);
             }
         })
         .catch(err => {
             setIsLoading(false)
+            setIsLoadingError(true);
             console.error(err);
         })
     }, []);
@@ -77,10 +80,16 @@ function App() {
                 <div className="statistics">
                     {questions && <div className="questions-count">{questionsCount} вопроса</div>}
                     {isLoading && <Spinner />}
+                    {isLoadingError && <div className="questions-error">Ошибка</div>}
                 </div>
             </div>
             <div className="container">
-                {!questions && <Question preview={true} />}
+                {!questions && !isLoadingError && <Question preview={true} />}
+                {isLoadingError && 
+                    <div className="question">
+                        <p className="error">Ошибка в соединении с сервером.</p>
+                    </div>
+                }
                 {filtered && filtered.length > 0 &&
                 filtered.map(question => {
                     return <Question 
