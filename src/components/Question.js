@@ -16,8 +16,10 @@ function Question(props) {
     const [processingStatus, setProcessingStatus] = useState(undefined);
     const [questionText, setQuestionText] = useState('');
     const [questionExplanation, setQuestionExplanation] = useState('');
+    const [questionAnswers, setQuestionAnswers] = useState([]);
     const textarea = useRef(false);
     const explanationArea = useRef(false);
+    const [isRemoveExplationPressed, setIsRemoveExplanationPresed] = useState(false);
     
     // Props
 
@@ -42,6 +44,10 @@ function Question(props) {
 
         if (props.info && props.info.explanation) {
             setQuestionExplanation(props.info.explanation);
+        }
+
+        if (props.info && props.info.answers) {
+            setQuestionAnswers(props.info.answers);
         }
     }, []);
 
@@ -83,8 +89,8 @@ function Question(props) {
         axios.patch(API_URL + '/api/approveQuestion', {
             questionID: info._id,
             newText: questionText,
-            newAnswers: answers,
-            newExplanation: questionExplanation || ''
+            newAnswers: questionAnswers,
+            newExplanation: questionExplanation && questionExplanation.length > 0 ? questionExplanation : undefined
         })
         .then((response) => {
             console.log(response);
@@ -146,6 +152,13 @@ function Question(props) {
         setQuestionText(e.target.value);
     }
 
+    function removeExplanation() {
+        if (isRemoveExplationPressed) {
+            setIsRemoveExplanationPresed(false);
+            setQuestionExplanation('');
+        }
+    }
+
     /**
      * Retry last processing. 
      */
@@ -176,6 +189,8 @@ function Question(props) {
         };
         return statusBoard[processingStatus] || 'Неизвестная ошибка.' 
     }
+
+    let answersCounter = 0;
 
     return(
         <div className="question">
@@ -228,20 +243,30 @@ function Question(props) {
                 </div>
 
                 <div className="question-answers">
-                    {answers && answers.length > 0 && 
-                        answers.map(answer => {
-                            return <div key={Math.random()*10000} className={"answer" + (props.preview ? ' preview' : '')}>
-                                {props.preview ? "" : answer}
-                                </div>
+                    {questionAnswers && questionAnswers.length > 0 &&
+                        questionAnswers.map((val, i, questionAnswers) => {
+                            return <input 
+                                    key={info._id + '-ans' + i} 
+                                    value={props.preview ? "" : questionAnswers[i]} 
+                                    onChange={(e) => { let tmp_answers = [...questionAnswers]; tmp_answers[i] = e.target.value; setQuestionAnswers(tmp_answers);}} 
+                                    className={"answer" + (props.preview ? ' preview' : '')} />
                         })
                     }
                 </div>
                 
-                {questionExplanation &&
                 <div className="question-explanation">
-                    <textarea rows={1} ref={explanationArea} onChange={(e) => {setQuestionExplanation(e.target.value)}} value={questionExplanation}></textarea>
+                    <textarea rows={1} placeholder="Введите пояснение..." ref={explanationArea} onChange={(e) => {setQuestionExplanation(e.target.value)}} value={questionExplanation}></textarea>
+                    {questionExplanation && questionExplanation.length > 0 && 
+                    <div 
+                        className={"delete-explanation" + (isRemoveExplationPressed ? ' pressed' : '')} 
+                        onTouchStart={() => {setIsRemoveExplanationPresed(true)}} 
+                        onTouchEnd={removeExplanation} 
+                        onTouchCancel={() => setIsRemoveExplanationPresed(false)} 
+                        onTouchMove={() => setIsRemoveExplanationPresed(false)}>
+                            Удалить пояснение
+                    </div>
+                    }
                 </div>
-                }
                 
                 <div className="userinfo">
                         <div className="userpic" style={{backgroundImage: "url(" + (props.preview ? "https://sun9-39.userapi.com/c857632/v857632207/1a4b9e/HdexUlSEQdU.jpg" : photo) + ")"}} />

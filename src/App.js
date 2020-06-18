@@ -14,8 +14,11 @@ function App() {
     const [categoryFilter, setCategoryFilter] = useState(false);
 
     useEffect(() => {
-        setIsLoading(true);
+        checkForUpdates();
+    }, []);
 
+    function checkForUpdates() {
+        setIsLoading(true);
         axios.get(API_URL + "/api/getSuggestedQuestions")
         .then((response) => {
             setIsLoading(false)
@@ -32,7 +35,7 @@ function App() {
             setIsLoadingError(true);
             console.error(err);
         })
-    }, []);
+    }
 
     function updateCategoryFilter(category) {
         if (category === categoryFilter) {
@@ -76,9 +79,9 @@ function App() {
     return(
         <div className="app">
             <div className="header">
-                <div className="logo" />
+                <div className="logo" onClick={checkForUpdates} />
                 <div className="statistics">
-                    {questions && <div className="questions-count">{questionsCount} вопроса</div>}
+                    {questions && !isLoading && <div className="questions-count">{questionsCount} вопроса</div>}
                     {isLoading && <Spinner />}
                     {isLoadingError && <div className="questions-error">Ошибка</div>}
                 </div>
