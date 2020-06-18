@@ -29,7 +29,7 @@ Base less script, to dive into this project.
 */
 .app {
   max-width: 440px;
-  margin: 0 auto;
+  margin: 0 auto 40px auto;
 }
 .header {
   margin-top: 40px;
@@ -194,7 +194,7 @@ Base less script, to dive into this project.
   justify-content: center;
 }
 .question-text {
-  margin-top: 4px;
+  margin-top: 8px;
   margin-bottom: 8px;
 }
 .question-text textarea {
@@ -238,13 +238,41 @@ Base less script, to dive into this project.
 .question-text .preview-text--block:nth-child(3n+1) {
   width: 40px;
 }
+.question-explanation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.question-explanation .delete-explanation {
+  display: none;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 1;
+  color: #ffffff;
+  text-align: center;
+  line-height: 16px;
+  border-radius: 8px;
+  background: #ECEFF4;
+  font-family: 'Roboto', sans-serif;
+  color: #5E6A7E;
+  margin: 6px 0;
+}
+.question-explanation .delete-explanation.pressed {
+  opacity: 0.5;
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) {
+  .question-explanation .delete-explanation {
+    display: block;
+  }
+}
 .question-explanation textarea {
   font-size: 12px;
   padding: 4px 0;
   color: #999999;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  width: 100%;
   box-sizing: border-box;
   resize: none;
   height: auto;
