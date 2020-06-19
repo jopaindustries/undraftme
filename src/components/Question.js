@@ -22,6 +22,7 @@ function Question(props) {
     const [isRemoveExplationPressed, setIsRemoveExplanationPresed] = useState(false);
     const [isDeclining, setIsDeclining] = useState(false);
     const [declineCode, setDeclineCode] = useState(10);
+    const [declineReason, setDeclineReason] = useState('');
     
     // Props
 
@@ -120,7 +121,8 @@ function Question(props) {
         axios.delete(API_URL + '/api/declineQuestion', {
             data: {
                 questionID: info._id,
-                code: declineCode
+                code: declineCode,
+                reason: declineReason.length > 0 ? declineReason : undefined
             }
         })
         .then((response) => {
@@ -167,7 +169,6 @@ function Question(props) {
      * Retry last processing. 
      */
     function retryProcess() {
-        //TestQuestionProcessing(processingStatus % 100);
         let processType = processingStatus % 100;
         if (processType === 0) {
             approveQuestion();
@@ -196,6 +197,11 @@ function Question(props) {
 
     function setDecliningCode(code) {
         setDeclineCode(code);
+
+        // Clear reason if this is no more custom code.
+        if (code !== 16) {
+            setDeclineReason('');
+        }
     }
 
     return(
@@ -204,13 +210,23 @@ function Question(props) {
             {isDeclining && !isProcessing &&
             <div className="declining">
                 <h2>Причина отклонения</h2>
-                <div className={"decline-code" + (declineCode === 10 ? ' checked' : '')} onClick={() => setDecliningCode(10)}>Копия чужого вопроса</div>
-                <div className={"decline-code" + (declineCode === 11 ? ' checked' : '')}  onClick={() => setDecliningCode(11)}>Нет образовательного подтекста</div>
-                <div className={"decline-code" + (declineCode === 12 ? ' checked' : '')} onClick={() => setDecliningCode(12)}>Непостоянная информация</div>
-                <div className={"decline-code" + (declineCode === 13 ? ' checked' : '')} onClick={() => setDecliningCode(13)}>Ненормативная лексика</div>
-                <div className={"decline-code" + (declineCode === 14 ? ' checked' : '')} onClick={() => setDecliningCode(14)}>Некорректный набор ответов</div>
-                <div className={"decline-code" + (declineCode === 15 ? ' checked' : '')} onClick={() => setDecliningCode(15)}>Невозможно проверить правильность ответа</div>
-                <div className={"decline-code" + (declineCode === 16 ? ' checked' : '')} onClick={() => setDecliningCode(16)}>Особое решение администрации</div>
+                <div className="codes">
+                    <div className={"decline-code" + (declineCode === 10 ? ' checked' : '')} onClick={() => setDecliningCode(10)}>Копия чужого вопроса</div>
+                    <div className={"decline-code" + (declineCode === 11 ? ' checked' : '')}  onClick={() => setDecliningCode(11)}>Нет образовательного подтекста</div>
+                    <div className={"decline-code" + (declineCode === 12 ? ' checked' : '')} onClick={() => setDecliningCode(12)}>Непостоянная информация</div>
+                    <div className={"decline-code" + (declineCode === 13 ? ' checked' : '')} onClick={() => setDecliningCode(13)}>Ненормативная лексика</div>
+                    <div className={"decline-code" + (declineCode === 14 ? ' checked' : '')} onClick={() => setDecliningCode(14)}>Некорректный набор ответов</div>
+                    <div className={"decline-code" + (declineCode === 15 ? ' checked' : '')} onClick={() => setDecliningCode(15)}>Невозможно проверить правильность ответа</div>
+                    <div className={"decline-code" + (declineCode === 16 ? ' checked' : '')} onClick={() => setDecliningCode(16)}>Особое решение администрации</div>
+                </div>
+                {declineCode === 16 &&
+                    <div className="decline-reason">
+                        <textarea 
+                            placeholder="Введите пояснение..."
+                            onChange={(e) => {setDeclineReason(e.target.value)}} 
+                            value={declineReason} />
+                    </div>
+                }
                 <div className="confirm-decline" onClick={declineQuestion}>Отклонить вопрос</div>
                 <div className="confirm-decline cancel" onClick={() => setIsDeclining(false)}>Отмена</div>
             </div>

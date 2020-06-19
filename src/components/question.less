@@ -147,7 +147,27 @@
              margin-top: 0;
              font-weight: 500;
              padding-top: 0;
-         }
+        }
+
+        .decline-reason {
+            
+            margin-top: 10px;;
+
+            textarea {
+                font-family: 'Roboto', sans-serif;
+                font-size: 16px;
+                border: 1px solid #DCE2EB;
+                border-radius: 4px;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 6px;
+                box-shadow: none;
+                outline: none;
+                -webkit-appearance: none;
+                resize: none;
+                min-height: 80px;
+            }
+        }
 
         .confirm-decline {
             background: #FAEBEB;
@@ -173,6 +193,14 @@
             &.cancel {
                 background: #EBF2FA;
                 color: #3F8AE0
+            }
+        }
+
+        .codes {
+            div {
+                &:last-child {
+                    border-bottom: none;
+                }
             }
         }
 
