@@ -205,6 +205,23 @@ Base less script, to dive into this project.
   font-weight: 500;
   padding-top: 0;
 }
+.question .declining .decline-reason {
+  margin-top: 10px;
+}
+.question .declining .decline-reason textarea {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  border: 1px solid #DCE2EB;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  box-shadow: none;
+  outline: none;
+  -webkit-appearance: none;
+  resize: none;
+  min-height: 80px;
+}
 .question .declining .confirm-decline {
   background: #FAEBEB;
   border-radius: 4px;
@@ -228,6 +245,9 @@ Base less script, to dive into this project.
 .question .declining .confirm-decline.cancel {
   background: #EBF2FA;
   color: #3F8AE0;
+}
+.question .declining .codes div:last-child {
+  border-bottom: none;
 }
 .question .declining .decline-code {
   font-family: 'Roboto', sans-serif;
