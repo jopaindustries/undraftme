@@ -5,6 +5,7 @@ import Question from './components/Question';
 import Spinner from './components/Spinner/Spinner';
 
 import {API_URL} from './constant';
+import num2str from './constant';
 
 function App() {
 
@@ -81,7 +82,7 @@ function App() {
             <div className="header">
                 <div className="logo" onClick={checkForUpdates} />
                 <div className="statistics">
-                    {questions && !isLoading && <div className="questions-count">{questionsCount} вопроса</div>}
+                    {questions && !isLoading && <div className="questions-count">{questionsCount + ' ' + num2str(questionsCount, ['вопрос', 'вопроса', 'вопросов'])}</div>}
                     {isLoading && <Spinner />}
                     {isLoadingError && <div className="questions-error">Ошибка</div>}
                 </div>

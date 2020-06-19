@@ -20,6 +20,8 @@ function Question(props) {
     const textarea = useRef(false);
     const explanationArea = useRef(false);
     const [isRemoveExplationPressed, setIsRemoveExplanationPresed] = useState(false);
+    const [isDeclining, setIsDeclining] = useState(false);
+    const [declineCode, setDeclineCode] = useState(10);
     
     // Props
 
@@ -114,9 +116,11 @@ function Question(props) {
         setIsProcessing(true);
         setProcessingStatus(1);
 
+        console.log('declining with code...', declineCode);
         axios.delete(API_URL + '/api/declineQuestion', {
             data: {
-                questionID: info._id
+                questionID: info._id,
+                code: declineCode
             }
         })
         .then((response) => {
@@ -190,10 +194,27 @@ function Question(props) {
         return statusBoard[processingStatus] || 'Неизвестная ошибка.' 
     }
 
-    let answersCounter = 0;
+    function setDecliningCode(code) {
+        setDeclineCode(code);
+    }
 
     return(
         <div className="question">
+
+            {isDeclining && !isProcessing &&
+            <div className="declining">
+                <h2>Причина отклонения</h2>
+                <div className={"decline-code" + (declineCode === 10 ? ' checked' : '')} onClick={() => setDecliningCode(10)}>Копия чужого вопроса</div>
+                <div className={"decline-code" + (declineCode === 11 ? ' checked' : '')}  onClick={() => setDecliningCode(11)}>Нет образовательного подтекста</div>
+                <div className={"decline-code" + (declineCode === 12 ? ' checked' : '')} onClick={() => setDecliningCode(12)}>Непостоянная информация</div>
+                <div className={"decline-code" + (declineCode === 13 ? ' checked' : '')} onClick={() => setDecliningCode(13)}>Ненормативная лексика</div>
+                <div className={"decline-code" + (declineCode === 14 ? ' checked' : '')} onClick={() => setDecliningCode(14)}>Некорректный набор ответов</div>
+                <div className={"decline-code" + (declineCode === 15 ? ' checked' : '')} onClick={() => setDecliningCode(15)}>Невозможно проверить правильность ответа</div>
+                <div className={"decline-code" + (declineCode === 16 ? ' checked' : '')} onClick={() => setDecliningCode(16)}>Особое решение администрации</div>
+                <div className="confirm-decline" onClick={declineQuestion}>Отклонить вопрос</div>
+                <div className="confirm-decline cancel" onClick={() => setIsDeclining(false)}>Отмена</div>
+            </div>
+            }
             
             {/* Processing content. Displays when question is accepted or declined. */}
             {isProcessing &&
@@ -208,7 +229,7 @@ function Question(props) {
 
             {/* Question content. Header, text, answers and explanation. */}
             {!isProcessing &&
-            <div>
+            <div style={isDeclining ? {display: 'none'} : {}}>
                 <div className="question-header">
                     <div onClick={applyFilter} className={"question-category " + (category ? category : '')}>
                         {CATEGORIES[category]}
@@ -280,7 +301,7 @@ function Question(props) {
                         <img src={approveIcon} />
                     </div>
                 </div>
-                <div className="action decline" onClick={declineQuestion}>
+                <div className="action decline" onClick={() => setIsDeclining(true)}>
                     <div className="icon">
                         <img src={declineIcon} />
                     </div>
