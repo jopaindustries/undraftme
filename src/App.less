@@ -56,3 +56,40 @@ Base less script, to dive into this project.
 .container {
     margin-top: 28px;
 }
+
+.epic {
+    position: relative;
+    display: flex;
+    padding-top: 10px;
+
+    @media only screen 
+    and (min-device-width: 320px) 
+    and (max-device-width: 812px) {
+        padding: 10px 12px;
+    }
+
+    &-button {
+        background: rgba(255,255,255,0.4);
+        font-family: 'Roboto', sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: #687589;
+        padding: 10px;
+        border-radius: 4px;
+        margin-right: 10px;
+
+        &.active {
+            background: rgba(255,255,255,0.9);
+        }
+
+        &:hover {
+            cursor: pointer;
+            background: rgba(255,255,255,0.7);
+
+            &.active {
+                cursor: default;
+                background: rgba(255,255,255,0.9);
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@ import './question.less';
 
 import approveIcon from '../assets/images/icon_approve.svg';
 import declineIcon from '../assets/images/icon_decline.svg';
+import rewriteIcon from '../assets/images/icn24_rewrite.svg'
 import Spinner from './Spinner/Spinner';
 
 import {CATEGORIES} from '../constant.js';
@@ -24,15 +25,17 @@ function Question(props) {
     const [declineCode, setDeclineCode] = useState(10);
     const [declineReason, setDeclineReason] = useState('');
     
+    const [isReported, setIsReported] = useState(false);
     // Props
 
     const {info} = props;
+    const isUser = info && info.requestedBy;
+    const reports = info && info.reports;
     const userName = (info && info.requestedBy && (info.requestedBy.first_name + ' ' + info.requestedBy.last_name));
     const photo = (info && info.requestedBy && info.requestedBy.photo);
     const answers = (info && info.answers);
     const category = (info && info.category);
     const {isProcessed} = props;
-
 
     useEffect(() => {
         if (props.info && props.info.isProcessed !== undefined) {
@@ -52,6 +55,10 @@ function Question(props) {
         if (props.info && props.info.answers) {
             setQuestionAnswers(props.info.answers);
         }
+
+        if (props.info && props.info.reports && props.info.reports.length > 0) {
+            setIsReported(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -63,7 +70,7 @@ function Question(props) {
     }, [questionExplanation])
 
     useEffect(() => {
-        if (processingStatus !== undefined && processingStatus !== false) {
+        if (processingStatus !== undefined && processingStatus !== false && !isReported) {
             setProcessedFlag();
         }
     }, [processingStatus])
@@ -82,14 +89,16 @@ function Question(props) {
     /**
      * Approve user question on the server.
      */
-    function approveQuestion() {
-        
+    function approveQuestion(e) {
+        e.preventDefault();
+        e.stopPropagation();
         if (!info || !info._id) return false;
 
+        
         setIsProcessing(true);
-        setProcessingStatus(0);
+        setProcessingStatus(isReported ? 2 : 0);
 
-        axios.patch(API_URL + '/api/approveQuestion', {
+        axios.patch(API_URL + (!isReported ? '/api/approveQuestion' : '/api/editQuestion'), {
             questionID: info._id,
             newText: questionText,
             newAnswers: questionAnswers,
@@ -98,14 +107,14 @@ function Question(props) {
         .then((response) => {
             console.log(response);
             if (response.data && response.data.code === 200) {
-                setProcessingStatus(200); 
+                setProcessingStatus(isReported ? 202 : 200); 
             } else {
-                setProcessingStatus(500)
+                setProcessingStatus(isReported ? 502 : 500)
             }
         })
         .catch((err) => {
             console.error(err);
-            setProcessingStatus(500);
+            setProcessingStatus(isReported ? 502 : 500);
         });
     }
 
@@ -118,7 +127,7 @@ function Question(props) {
         setProcessingStatus(1);
 
         console.log('declining with code...', declineCode);
-        axios.delete(API_URL + '/api/declineQuestion', {
+        axios.delete(API_URL + (!isReported ? '/api/declineQuestion' : '/api/question'), {
             data: {
                 questionID: info._id,
                 code: declineCode,
@@ -136,6 +145,30 @@ function Question(props) {
         .catch((err) => {
             console.error(err);
             setProcessingStatus(501);
+        })
+    }
+
+    function closeReports(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!info || !info._id) return false;
+
+        setIsProcessing(true);
+        setProcessingStatus(3);
+
+        axios.get(API_URL + '/api/clearQuestionReports', {
+            params: {questionID: info._id}
+        })
+        .then((response) => {
+            if (response.data && response.data.code === 200) {
+                setProcessingStatus(203); 
+            } else {
+                setProcessingStatus(503); 
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            setProcessingStatus(503);
         })
     }
 
@@ -158,7 +191,9 @@ function Question(props) {
         setQuestionText(e.target.value);
     }
 
-    function removeExplanation() {
+    function removeExplanation(e) {
+        e.preventDefault();
+        e.stopPropagation();
         if (isRemoveExplationPressed) {
             setIsRemoveExplanationPresed(false);
             setQuestionExplanation('');
@@ -190,7 +225,13 @@ function Question(props) {
             200: 'Вопрос одобрен.',
             1: 'Удаление вопроса...',
             201: 'Вопрос успешно удалён.',
-            501: 'Не удалось удалить вопрос.'
+            501: 'Не удалось удалить вопрос.',
+            2: 'Вопрос обновляется...',
+            202: 'Вопрос успешно обновлен.',
+            502: 'Не удалось обновить вопрос.',
+            3: 'Завершение обращений...',
+            203: 'Все обращения закрыты.',
+            503: 'Не удалось закрыть обращение.'
         };
         return statusBoard[processingStatus] || 'Неизвестная ошибка.' 
     }
@@ -305,24 +346,40 @@ function Question(props) {
                     }
                 </div>
                 
+                {isUser !== 0 && 
                 <div className="userinfo">
-                        <div className="userpic" style={{backgroundImage: "url(" + (props.preview ? "https://sun9-39.userapi.com/c857632/v857632207/1a4b9e/HdexUlSEQdU.jpg" : photo) + ")"}} />
-                        <div className="username">
-                            <h2 className={props.preview ? 'preview' : ''}>{props.preview ? '' : userName}</h2>
-                        </div>
+                    <div className="userpic" style={{backgroundImage: "url(" + (props.preview ? "https://sun9-39.userapi.com/c857632/v857632207/1a4b9e/HdexUlSEQdU.jpg" : photo) + ")"}} />
+                    <div className="username">
+                        <h2 className={props.preview ? 'preview' : ''}>{props.preview ? '' : userName}</h2>
                     </div>
+                </div>
+                }
+                {isUser === 0 && <br/>}
+                
                 <div className="mobile-actions">
-                <div className="action approve" onClick={approveQuestion}>
-                    <div className="icon">
-                        <img src={approveIcon} />
+                    <div className="action approve" onClick={approveQuestion} onTouchEnd={approveQuestion}>
+                        <div className="icon">
+                            <img src={isReported ? rewriteIcon : approveIcon} />
+                        </div>
+                        {isReported && <div className="label">Обновить вопрос</div>}
+                    </div>
+                    <div className="action decline" onClick={() => setIsDeclining(true)}>
+                        <div className="icon">
+                            <img src={declineIcon} />
+                        </div>
+                        {isReported && <div className="label">Удалить вопрос</div>}
                     </div>
                 </div>
-                <div className="action decline" onClick={() => setIsDeclining(true)}>
-                    <div className="icon">
-                        <img src={declineIcon} />
-                    </div>
+
+                {reports && 
+                <div className="reports">
+                    <h3>Жалобы пользователей</h3>
+                    {reports.map(report => {
+                        return <div key={Math.random() * 10000} className="report">{report}</div>
+                    })}
+                    <div className="close-report" onClick={closeReports}>Закрыть обращения</div>
                 </div>
-            </div>
+                }
             </div>
             }
         </div>

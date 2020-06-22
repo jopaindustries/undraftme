@@ -10,13 +10,23 @@ import num2str from './constant';
 function App() {
 
     const [questions, setQuestions] = useState(null);
+    const [reports, setReports] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingError, setIsLoadingError] = useState(false);
     const [categoryFilter, setCategoryFilter] = useState(false);
+    const [activeTab, setActiveTab] = useState('requests');
 
     useEffect(() => {
         checkForUpdates();
     }, []);
+
+    useEffect(() => {
+        if (activeTab === 'reports') {
+            checkForReports();
+        } else if (activeTab === 'requests') {
+            checkForUpdates();
+        }
+    }, [activeTab])
 
     function checkForUpdates() {
         setIsLoading(true);
@@ -35,6 +45,18 @@ function App() {
             setIsLoading(false)
             setIsLoadingError(true);
             console.error(err);
+        })
+    }
+
+    function checkForReports() {
+        setIsLoading(true);
+        axios.get(API_URL + "/api/reportedQuestions")
+        .then((response) => {
+            setIsLoading(false);
+            if (response.data && response.data.attachment) {
+                setReports(response.data.attachment);
+                console.log(response.data.attachment);   
+            }
         })
     }
 
@@ -62,6 +84,10 @@ function App() {
         }
     }
 
+    function switchTab(tab_id) {
+        setActiveTab(tab_id);
+    }
+
     let questionsCount = questions && questions.length || 0;
     if (questionsCount > 0) {
         let filterByProcessed = questions.filter(q => {
@@ -87,6 +113,11 @@ function App() {
                     {isLoadingError && <div className="questions-error">Ошибка</div>}
                 </div>
             </div>
+            <div className="epic">
+                <div className={"epic-button" + (activeTab === 'requests' ? ' active' : '')} onClick={() => switchTab('requests')}>Вопросы</div>
+                <div className={"epic-button" + (activeTab === 'reports' ? ' active' : '')} onClick={() => switchTab('reports')}>Жалобы</div>
+            </div>
+            {activeTab === 'requests' && 
             <div className="container">
                 {!questions && !isLoadingError && <Question preview={true} />}
                 {isLoadingError && 
@@ -105,6 +136,27 @@ function App() {
                 })
                 }
             </div>
+            }
+
+            {activeTab === 'reports' && 
+            <div className="container">
+                {!questions && !isLoadingError && <Question preview={true} />}
+                {isLoadingError && 
+                    <div className="question">
+                        <p className="error">Ошибка в соединении с сервером.</p>
+                    </div>
+                }
+                {reports && reports.map(question => {
+                    return <Question 
+                            key={question._id} 
+                            onProcessed={setQuestionProcessed} 
+                            onCategoryClick={updateCategoryFilter} 
+                            info={question} 
+                        />
+                })
+                }
+            </div>
+            }
         </div>
     )
 }
