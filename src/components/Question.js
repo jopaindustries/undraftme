@@ -59,7 +59,7 @@ function Question(props) {
         if (props.info && props.info.reports && props.info.reports.length > 0) {
             setIsReported(true);
         }
-    }, []);
+    }, [info]);
 
     useEffect(() => {
         calculateTextareaHeight(textarea);
@@ -69,13 +69,14 @@ function Question(props) {
         calculateTextareaHeight(explanationArea)
     }, [questionExplanation])
 
+    useEffect(() => {}, [info]);
+
     useEffect(() => {
         if (processingStatus !== undefined && processingStatus !== false && !isReported) {
             setProcessedFlag();
         }
     }, [processingStatus])
     
-
     // Methods
 
     function TestQuestionProcessing(type, isError) {
@@ -90,8 +91,10 @@ function Question(props) {
      * Approve user question on the server.
      */
     function approveQuestion(e) {
-        e.preventDefault();
-        e.stopPropagation();
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         if (!info || !info._id) return false;
 
         
