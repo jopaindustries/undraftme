@@ -74,6 +74,37 @@ Base less script, to dive into this project.
 .container {
   margin-top: 28px;
 }
+.epic {
+  position: relative;
+  display: flex;
+  padding-top: 10px;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
+  .epic {
+    padding: 10px 12px;
+  }
+}
+.epic-button {
+  background: rgba(255, 255, 255, 0.4);
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #687589;
+  padding: 10px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.epic-button.active {
+  background: rgba(255, 255, 255, 0.9);
+}
+.epic-button:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.7);
+}
+.epic-button:hover.active {
+  cursor: default;
+  background: rgba(255, 255, 255, 0.9);
+}
 
 .question {
   background: #FFFFFF;
@@ -474,6 +505,7 @@ Base less script, to dive into this project.
   user-select: none;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
   .question .mobile-actions .action {
@@ -497,12 +529,21 @@ Base less script, to dive into this project.
 .question .mobile-actions .action.decline {
   background: #FAEBEB;
 }
+.question .mobile-actions .action.decline .label {
+  color: #E64646;
+}
 .question .mobile-actions .action .icon {
   width: 24px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.question .mobile-actions .action .label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  color: #3F8AE0;
+  margin: 0 4px;
 }
 @media only screen and (min-device-width: 320px) and (max-device-width: 812px) {
   .question .mobile-actions {
@@ -511,6 +552,48 @@ Base less script, to dive into this project.
     justify-content: stretch;
     align-items: center;
   }
+}
+.question .reports {
+  margin-top: 12px;
+  padding: 12px;
+  background: #000;
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+.question .reports h3 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.question .reports .report {
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  color: #999;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.question .reports .report:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+.question .reports .close-report {
+  background: #f5f5f5;
+  color: #000;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.question .reports .close-report:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 div.spinner {
