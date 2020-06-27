@@ -1,4 +1,4 @@
-export const API_URL = 'https://mindopoly.tech';
+export const API_URL = 'https://mindopoly.ml';
 
 export const CATEGORIES = {
     Math: "Математика",

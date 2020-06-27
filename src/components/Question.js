@@ -374,15 +374,15 @@ function Question(props) {
                     </div>
                 </div>
 
-                {reports && 
-                <div className="reports">
-                    <h3>Жалобы пользователей</h3>
-                    {reports.map(report => {
-                        return <div key={Math.random() * 10000} className="report">{report}</div>
-                    })}
-                    <div className="close-report" onClick={closeReports}>Закрыть обращения</div>
-                </div>
-                }
+            </div>
+            }
+            {reports && processingStatus !== 203 && processingStatus !== 201 &&
+            <div className="reports">
+                <h3>Жалобы пользователей</h3>
+                {reports.map(report => {
+                    return <div key={Math.random() * 10000} className="report">{report}</div>
+                })}
+                <div className="close-report" onClick={closeReports}>Закрыть обращения</div>
             </div>
             }
         </div>

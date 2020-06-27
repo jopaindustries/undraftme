@@ -95,6 +95,7 @@ function App() {
         });
         questionsCount = filterByProcessed.length;
     }
+    let reportsCount = reports ? reports.length : 0;
 
     let filtered = questions;
     if (categoryFilter) {
@@ -108,7 +109,8 @@ function App() {
             <div className="header">
                 <div className="logo" onClick={checkForUpdates} />
                 <div className="statistics">
-                    {questions && !isLoading && <div className="questions-count">{questionsCount + ' ' + num2str(questionsCount, ['вопрос', 'вопроса', 'вопросов'])}</div>}
+                    {activeTab === 'requests' && questions && !isLoading && <div className="questions-count">{questionsCount + ' ' + num2str(questionsCount, ['вопрос', 'вопроса', 'вопросов'])}</div>}
+                    {activeTab === 'reports' && reports && !isLoading && <div className="questions-count">{reportsCount + ' ' + num2str(reportsCount, ['обращение', 'обращения', 'обращений'])}</div>}
                     {isLoading && <Spinner />}
                     {isLoadingError && <div className="questions-error">Ошибка</div>}
                 </div>
