@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: 🐞 Bug report
 about: Submit a bug report to improve the quality of Native Robotics products.
 title: ''
 labels: bug
